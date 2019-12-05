@@ -1,27 +1,40 @@
 const express = require('express');
+const postDb = require('./postDb');
+const { validatePostId, validatePost } = require('../users/middleWare');
 
 const router = express.Router();
+const serverError = { error: 'Something Wront With The Server' };
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // do your magic!
+  try {
+    const posts = await postDb.get();
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(serverError);
+  }
 });
 
-router.get('/:id', (req, res) => {
-  // do your magic!
+router.get('/:id', validatePostId, (req, res) => {
+  res.status(200).json(req.post);
 });
 
-router.delete('/:id', (req, res) => {
-  // do your magic!
+router.delete('/:id', validatePostId, async (req, res) => {
+  try {
+    await postDb.remove(req.params.id);
+    res.status(200).json({ message: 'Post Deleted' });
+  } catch (error) {
+    res.status(500).json(serverError);
+  }
 });
 
-router.put('/:id', (req, res) => {
-  // do your magic!
+router.put('/:id', validatePostId, validatePost, async (req, res) => {
+  try {
+    const editedPost = await postDb.update(req.params.id, req.body);
+    res.status(200).json(req.body);
+  } catch (error) {
+    res.status(500).json(serverError);
+  }
 });
-
-// custom middleware
-
-function validatePostId(req, res, next) {
-  // do your magic!
-}
 
 module.exports = router;
