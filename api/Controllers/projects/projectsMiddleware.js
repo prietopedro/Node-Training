@@ -14,7 +14,7 @@ module.exports = {
       res.status(500).json({ error: 'Something Wrong With The Server' });
     }
   },
-  validateProject: async (req, res, next) => {
+  validateProject: (req, res, next) => {
     if (!req.body.name && !req.body.description) {
       res.status(401).json({ error: 'Missing Name or Description' });
     } else {
