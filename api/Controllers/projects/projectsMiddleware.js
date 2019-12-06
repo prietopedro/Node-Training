@@ -15,7 +15,7 @@ module.exports = {
     }
   },
   validateProject: (req, res, next) => {
-    if (!req.body.name && !req.body.description) {
+    if (!req.body.name || !req.body.description) {
       res.status(401).json({ error: 'Missing Name or Description' });
     } else {
       next();

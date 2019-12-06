@@ -28,6 +28,9 @@ actionRouter.put(
   validateActionId,
   validateProjectId,
   async (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+      res.status(500).json({ error: 'MISSING BODY' });
+    }
     try {
       const editedAction = await actionsDb.update(req.params.id, req.body);
       res.status(200).json(editedAction);
