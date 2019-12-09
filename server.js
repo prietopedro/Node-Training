@@ -14,8 +14,11 @@ class Account {
 }
 /// GET ALL ACCOINTS
 server.get('/', async (req, res) => {
+  query = req.query;
   try {
-    const accs = await db('accounts');
+    let accs = await db('accounts')
+      .limit(query.limit || '-1')
+      .orderBy(req.query.sortby || 'id', req.query.sortdir || 'asc');
     res.status(200).json(accs);
   } catch (error) {
     res.status(500).json({ error: 'SERVER MALFUNCTIONING' });
