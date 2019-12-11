@@ -37,11 +37,16 @@ const remove = (id)=>{
     return db('schemes').where({id}).del()
 }
 
+const addStep = async (step,id) => {
+    return db('steps').insert({...step,scheme_id: id})
+}
+
 module.exports = {
   find,
   findById,
   findSteps,
   add,
   update,
-  remove
+  remove,
+  addStep
 };
