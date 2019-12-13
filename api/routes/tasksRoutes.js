@@ -1,6 +1,6 @@
 const express = require("express");
 
-const projects = require("../controllers/projectsController");
+const tasks = require("../controllers/tasksControllers");
 
 const router = express.Router();
 
@@ -8,8 +8,8 @@ const err = { error: "Server Malfunctioning" };
 //GET THEM ALL
 router.get("/", async (req, res) => {
   try {
-    const allProjects = await projects.get();
-    res.status(200).json(allProjects);
+    const allTasks = await tasks.get();
+    res.status(200).json(allTasks);
   } catch (error) {
     res.status(500).json(err);
   }
@@ -18,8 +18,8 @@ router.get("/", async (req, res) => {
 // GET BY ID
 router.get("/:id", async (req, res) => {
     try {
-        const project = await projects.getById(req.params.id)
-        res.status(200).json(project);
+        const task = await tasks.getById(req.params.id)
+        res.status(200).json(task);
     } catch (error) {
         res.status(500).json(err);
     }
@@ -28,8 +28,8 @@ router.get("/:id", async (req, res) => {
 // POST NEW ONE
 router.post("/", async (req, res) => {
   try {
-    const newProject = await projects.insert(req.body);
-    res.status(200).json(newProject);
+    const newTask = await tasks.insert(req.body);
+    res.status(200).json(newTask);
   } catch (error) {
     res.status(500).json(err);
   }
@@ -38,8 +38,8 @@ router.post("/", async (req, res) => {
 // EDIT
 router.put("/:id", async (req, res) => {
     try {
-        const editedProject = await projects.update(req.params.id,req.body)
-        res.status(200).json(editedProject);
+        const editedTask = await tasks.update(req.params.id,req.body)
+        res.status(200).json(editedTask);
     } catch (error) {
         res.status(500).json(err);
     }
@@ -48,8 +48,8 @@ router.put("/:id", async (req, res) => {
 // DELETE
 router.delete("/:id", async (req, res) => {
     try {
-        await projects.remove(req.params.id)
-        res.status(200).json({message: "Project Deleted"});
+        await tasks.remove(req.params.id)
+        res.status(200).json({message: "Task Deleted"});
     } catch (error) {
         res.status(500).json(err);
     }
