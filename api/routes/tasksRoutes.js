@@ -9,6 +9,13 @@ const err = { error: "Server Malfunctioning" };
 router.get("/", async (req, res) => {
   try {
     const allTasks = await tasks.get();
+    allTasks.forEach(task => {
+      if (!task.completed) {
+        task.completed = false;
+      } else {
+        task.completed = true;
+      }
+    });
     res.status(200).json(allTasks);
   } catch (error) {
     res.status(500).json(err);
@@ -17,12 +24,18 @@ router.get("/", async (req, res) => {
 
 // GET BY ID
 router.get("/:id", async (req, res) => {
-    try {
-        const task = await tasks.getById(req.params.id)
-        res.status(200).json(task);
-    } catch (error) {
-        res.status(500).json(err);
+  try {
+    const task = await tasks.getById(req.params.id);
+    if (!task.completed) {
+      task.completed = false;
+    } else {
+      task.completed = true;
     }
+
+    res.status(200).json(task);
+  } catch (error) {
+    res.status(500).json(err);
+  }
 });
 
 // POST NEW ONE
@@ -37,22 +50,22 @@ router.post("/", async (req, res) => {
 
 // EDIT
 router.put("/:id", async (req, res) => {
-    try {
-        const editedTask = await tasks.update(req.params.id,req.body)
-        res.status(200).json(editedTask);
-    } catch (error) {
-        res.status(500).json(err);
-    }
+  try {
+    const editedTask = await tasks.update(req.params.id, req.body);
+    res.status(200).json(editedTask);
+  } catch (error) {
+    res.status(500).json(err);
+  }
 });
 
 // DELETE
 router.delete("/:id", async (req, res) => {
-    try {
-        await tasks.remove(req.params.id)
-        res.status(200).json({message: "Task Deleted"});
-    } catch (error) {
-        res.status(500).json(err);
-    }
+  try {
+    await tasks.remove(req.params.id);
+    res.status(200).json({ message: "Task Deleted" });
+  } catch (error) {
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;

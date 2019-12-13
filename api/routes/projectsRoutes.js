@@ -9,6 +9,13 @@ const err = { error: "Server Malfunctioning" };
 router.get("/", async (req, res) => {
   try {
     const allProjects = await projects.get();
+    allProjects.forEach(project => {
+      if(!project.completed){
+        project.completed = false
+      }else{
+        project.completed = true
+      }
+    })
     res.status(200).json(allProjects);
   } catch (error) {
     res.status(500).json(err);
@@ -19,6 +26,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const project = await projects.getById(req.params.id)
+        if(!project.completed){
+          project.completed = false
+        }else{
+          project.completed = true
+        }
         res.status(200).json(project);
     } catch (error) {
         res.status(500).json(err);
@@ -54,5 +66,6 @@ router.delete("/:id", async (req, res) => {
         res.status(500).json(err);
     }
 });
+
 
 module.exports = router;
