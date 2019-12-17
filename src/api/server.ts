@@ -8,6 +8,6 @@ app.use(json())
 
 
 // Routes
-app.use('/users',users);
+app.use('/api',users);
 
 export default app;

@@ -1,3 +1,5 @@
+import Knex = require("knex");
+
 // Update with your config settings.
 
 module.exports = {

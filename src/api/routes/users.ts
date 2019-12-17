@@ -1,8 +1,12 @@
-import {Router} from "express"
+import { Router } from "express";
+import {getAllUsers, addNewUser, login} from "../controllers/UsersController"
+
 const route = Router();
 
-route.get('/',(req,res)=>{
-    res.json({message: "hello world"})
-})
+route.get("/users", getAllUsers);
+
+route.post("/register", addNewUser);
+
+route.post("/login", login);
 
 export default route;
