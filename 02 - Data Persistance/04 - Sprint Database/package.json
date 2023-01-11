@@ -19,7 +19,7 @@
   "homepage": "https://github.com/prietop97/node-db-challenge#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "knex": "^0.20.4",
+    "knex": "^2.4.0",
     "nodemon": "^2.0.2",
     "sqlite3": "^4.1.1"
   }
